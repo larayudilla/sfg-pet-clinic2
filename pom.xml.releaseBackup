@@ -49,9 +49,5 @@
         </pluginManagement>
     </build>
 
-    <scm>
-        <developerConnection>scm:git:https://github.com/larayudilla/sfg-pet-clinic2.git</developerConnection>
-    </scm>
-
 
 </project>
