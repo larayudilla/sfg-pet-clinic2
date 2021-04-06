@@ -1,10 +1,7 @@
 package guru.springframework.sfgpetclinic.Bootstrap;
 
 import guru.springframework.sfgpetclinic.model.*;
-import guru.springframework.sfgpetclinic.services.OwnerService;
-import guru.springframework.sfgpetclinic.services.SpecialityService;
-import guru.springframework.sfgpetclinic.services.VetService;
-import guru.springframework.sfgpetclinic.services.PetTypeService;
+import guru.springframework.sfgpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +14,14 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -60,36 +59,45 @@ public class DataLoader implements CommandLineRunner {
         Speciality saveDentistry = specialityService.save(dentistry);
 
         Owner owner1 = new Owner();
-        owner1.setFirstName("Lara");
-        owner1.setLastName("Yudilla");
-        owner1.setAddress("Jl.Melati no.21");
+        owner1.setFirstName("Fiona");
+        owner1.setLastName("Jane");
+        owner1.setAddress("Jl.Ampera no.24");
         owner1.setCity("Jakarta");
-        owner1.setTelephone("085795130397");
+        owner1.setTelephone("085895138887");
 
-        Pet larasCat = new Pet();
-        larasCat.setPetType(savedCatPetType);
-        larasCat.setOwner(owner1);
-        larasCat.setBirthDate(LocalDate.now());
-        larasCat.setName("Si Kuning");
-        owner1.getPets().add(larasCat);
+        Pet fionasPet = new Pet();
+        fionasPet.setPetType(savedDogPetType);
+        fionasPet.setOwner(owner1);
+        fionasPet.setBirthDate(LocalDate.now());
+        fionasPet.setName("Rosco");
+        owner1.getPets().add(fionasPet);
 
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
-        owner2.setFirstName("Fiona");
-        owner2.setLastName("Jane");
-        owner2.setAddress("Jl.Tb Simatupang no.41");
+        owner2.setFirstName("Lara");
+        owner2.setLastName("Yudilla");
+        owner2.setAddress("Jl.Melati no.21");
         owner2.setCity("Jakarta");
-        owner2.setTelephone("089993773732");
+        owner2.setTelephone("085795130397");
 
-        Pet fionasDog = new Pet();
-        fionasDog.setPetType(savedDogPetType);
-        fionasDog.setOwner(owner2);
-        fionasDog.setBirthDate(LocalDate.now());
-        fionasDog.setName("Spike");
-        owner2.getPets().add(fionasDog);
+        Pet larasCat = new Pet();
+        larasCat.setName("Just Cat");
+        larasCat.setOwner(owner2);
+        larasCat.setBirthDate(LocalDate.now());
+        larasCat.setPetType(savedCatPetType);
+        owner2.getPets().add(larasCat);
 
         ownerService.save(owner2);
+
+        Visit catVisit = new Visit();
+        catVisit.setPet(larasCat);
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("Kitty");
+
+        visitService.save(catVisit);
+
+        System.out.println("Loaded Owners....");
 
         System.out.println("Loaded Owners....");
 
